@@ -1,8 +1,23 @@
 #include "Ini.hpp"
 
-std::string getIniString(const std::string section, const std::string key, const std::string def, const std::string name) {
+Ini::Ini(){
 
-	std::fstream file(name, std::ios::in);
+}
+
+Ini::Ini(std::string n){
+	name = n;
+}
+
+Ini::~Ini(){
+	file.close();
+}
+
+std::string Ini::getString(const std::string section, const std::string key, const std::string def) {
+	file.open(name, std::ios::in);
+	if(!file.good()){
+		return def;
+	}
+
 	std::string line;
 	std::string value;
 	std::string _key;
@@ -30,17 +45,28 @@ std::string getIniString(const std::string section, const std::string key, const
 			}
 
 			std::getline(is_line, value);
+			file.close();
 			return value;
 		}
 	}
+	file.close();
 	return def;
 }
 
-int getIniInt(const std::string section, const std::string key, const int def, const std::string name) {
-	return std::atoi(getIniString(section, key, std::to_string(def), name).c_str());
+int Ini::getInt(const std::string section, const std::string key, const int def) {
+	try{
+		return std::atoi(getString(section, key, std::to_string(def)).c_str());
+	}
+	catch(...){
+		std::cerr<<"Error atoi threw an exception!\n";
+		return def;
+	}
 }
 
-int getIniBool(const std::string section, const std::string key, const bool def, const std::string name) {
-	return getIniString(section, key, std::to_string(def), name) == "true" ? true : false;
+bool Ini::getBool(const std::string section, const std::string key, const bool def) {
+	return getString(section, key, std::to_string(def)) == "true" ? true : false;
 }
 
+void Ini::setName(const std::string n){
+	name = n;
+}
