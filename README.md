@@ -8,9 +8,9 @@ So far, only reads
 
 int main(){
 	Ini read("test.ini");
-	std::cout << "Name = " << ini.getString("user", "name", "UNKNOWN") << std::endl;
-	std::cout << "Surname = " << ini.getString("user", "surname", "UNKNOWN") << std::endl;
-	std::cout << "email = " << ini.getString("user", "email", "UNKNOWN@UNKNOWN") << std::endl;
-	std::cout << "age = " << ini.getInt("user", "age", -1) << std::endl;
+	std::cout << "Name = " << read.getString("user", "name", "UNKNOWN") << std::endl;
+	std::cout << "Surname = " << read.getString("user", "surname", "UNKNOWN") << std::endl;
+	std::cout << "email = " << read.getString("user", "email", "UNKNOWN@UNKNOWN") << std::endl;
+	std::cout << "age = " << read.getInt("user", "age", -1) << std::endl;
 	return 0;
 }
