@@ -23,14 +23,14 @@ std::string Ini::getString(const std::string section, const std::string key, con
     std::string _key;
 
     while(std::getline(file, line)) { //reading line
-		value=line.substr(line.find("[")+1);//value is name of section
+        value = line.substr(line.find("[") + 1); //value is name of section
 
         if(value.substr(0, value.find("]")) != section) { //checking section
             continue;
         }
 
         while(std::getline(file, line)) { //reading line in section
-			_key=line.substr(0,line.find("="));
+            _key = line.substr(0, line.find("="));
 
             if(_key.find("[") == 0) { //if start of another section
                 break;
@@ -40,7 +40,7 @@ std::string Ini::getString(const std::string section, const std::string key, con
                 continue;
             }
 
-			value=line.substr(line.find("=")+1,line.size());
+            value = line.substr(line.find("=") + 1, line.size());
 
             file.close();
             return value;
@@ -55,7 +55,7 @@ int Ini::getInt(const std::string section, const std::string key, const int def)
         return std::atoi(getString(section, key, std::to_string(def)).c_str());
     }
     catch(...) {
-        std::cerr<<"Error atoi threw an exception!\n";
+        std::cerr << "Error atoi threw an exception!\n";
         return def;
     }
 }
