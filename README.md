@@ -4,6 +4,7 @@ So far, only reads
 
 # Example in C++
 ```cpp
+#include <iostream>
 #include "Ini.hpp"
 
 int main(){
