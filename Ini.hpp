@@ -1,9 +1,9 @@
 #ifndef GETINI_HPP
 #define GETINI_HPP
 
-#include <string>
 #include <fstream>
-#include <sstream>
+#include <iostream>
+#include <string>
 
 class Ini {
 public:

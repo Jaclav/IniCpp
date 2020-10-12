@@ -23,18 +23,14 @@ std::string Ini::getString(const std::string section, const std::string key, con
     std::string _key;
 
     while(std::getline(file, line)) { //reading line
-        std::stringstream is_line(line);
-
-        std::getline(is_line, _key, '[');//read into start of another section
-        std::getline(is_line, value);
+		value=line.substr(line.find("[")+1);//value is name of section
 
         if(value.substr(0, value.find("]")) != section) { //checking section
             continue;
         }
 
         while(std::getline(file, line)) { //reading line in section
-            std::istringstream is_line(line);
-            std::getline(is_line, _key, '=');
+			_key=line.substr(0,line.find("="));
 
             if(_key.find("[") == 0) { //if start of another section
                 break;
@@ -44,7 +40,8 @@ std::string Ini::getString(const std::string section, const std::string key, con
                 continue;
             }
 
-            std::getline(is_line, value);
+			value=line.substr(line.find("=")+1,line.size());
+
             file.close();
             return value;
         }
