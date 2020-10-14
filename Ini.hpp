@@ -4,23 +4,27 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <vector>
 
 class Ini {
 public:
     Ini();
-    Ini(const std::string n);
+    Ini(const std::string name);
 
     ~Ini();
 
-    std::string getString(const std::string section, const std::string key, const std::string def);
-    int getInt(const std::string section, const std::string key, const int def);
-    bool getBool(const std::string section, const std::string key, const bool def);
+    void setName(const std::string name);
 
-    void setName(const std::string n);
+    std::string readString(const std::string section, const std::string key, const std::string def);
+    int readInt(const std::string section, const std::string key, const int def);
+    bool readBool(const std::string section, const std::string key, const bool def);
+
+    bool writeString(const std::string section, const std::string key, const std::string value);
 
 private:
     std::string name;
     std::fstream file;
+    std::vector<std::string> loaded;
 };
 
 #endif // GETINI_HPP
