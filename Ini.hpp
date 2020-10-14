@@ -19,7 +19,14 @@ public:
     int readInt(const std::string section, const std::string key, const int def);
     bool readBool(const std::string section, const std::string key, const bool def);
 
-    bool writeString(const std::string section, const std::string key, const std::string value);
+    char writeString(const std::string section, const std::string key, const std::string value);
+    /*
+     * This function raturns:
+     * 0  - ok
+     * -1 - file not found
+     * 1  - section not found
+     * 2  - key not found
+     * */
 
 private:
     std::string name;

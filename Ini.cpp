@@ -68,7 +68,7 @@ bool Ini::readBool(const std::string section, const std::string key, const bool 
     return readString(section, key, std::to_string(def)) == "true" ? true : false;
 }
 
-bool Ini::writeString(const std::string section, const std::string key, const std::string value) {
+char Ini::writeString(const std::string section, const std::string key, const std::string value) {
     //TODO now works only if key alredy exists, and change him
     file.open(name, std::ios::in);
     if(!file.good()) {
@@ -83,25 +83,25 @@ bool Ini::writeString(const std::string section, const std::string key, const st
 
     for(unsigned int i = 0; i < loaded.size(); i++) {//search section
         if(loaded[i].size() > 3 && loaded[i][0] == '[' && loaded[i].substr(1, loaded[i].size() - 2) == section) {//if in good section
-            while(loaded[i][0] != '[' || i < loaded.size()) { //search key
-                i++;
+            for(; loaded[i][0] != '[' || i < loaded.size() ; i++) { //search key
                 if(loaded[i].substr(0, loaded[i].find("=")) == key) { //if good key
                     loaded[i] = loaded[i].substr(0, loaded[i].find("=")) + "=" + value;
-                    break;
+
+                    //save file
+                    file.close();
+                    remove(name.c_str());
+                    file.open(name, std::ios::out);
+
+                    for(unsigned int i = 0; i < loaded.size(); i++) {
+                        file << loaded[i] << '\n';
+                    }
+
+                    file.close();
+                    return 0;
                 }
             }
-            break;
+            return 2;//section exists but key doesn't
         }
     }
-
-    file.close();
-    remove(name.c_str());
-    file.open(name, std::ios::out);
-
-    for(unsigned int i = 0; i < loaded.size(); i++) {
-        file << loaded[i] << '\n';
-    }
-
-    file.close();
-    return 0;
+    return 1;//section doesn't exist
 }
