@@ -2,10 +2,11 @@
 make
 ./a.out > /tmp/a.out
 
-str="Name = John
-Surname = Smith
+str="name = John
+surname = Smith
 email = johnsmith@example.com
-age = 32"
+age = 32
+age = 16"
 
 if [[ "$(cat /tmp/a.out)" == $str ]]; then
 	echo "Everything is OK!"

@@ -19,7 +19,7 @@ public:
     int readInt(const std::string section, const std::string key, const int def);
     bool readBool(const std::string section, const std::string key, const bool def);
 
-    bool writeString(const std::string section, const std::string key, const std::string value);
+    void writeString(const std::string section, const std::string key, const std::string value);
 
 private:
     std::string name;

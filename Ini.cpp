@@ -68,35 +68,41 @@ bool Ini::readBool(const std::string section, const std::string key, const bool 
     return readString(section, key, std::to_string(def)) == "true" ? true : false;
 }
 
-bool Ini::writeString(const std::string section, const std::string key, const std::string value) {
-    //TODO now works only if key alredy exists, and change him
-    file.open(name, std::ios::in);
+void Ini::writeString(const std::string section, const std::string key, const std::string value) {
+    //TODO: doesn't work when section exists and key doesn't
+    file.open(name, std::ios::in | std::ios::out);
     if(!file.good()) {
-        return -1;
+        file << '[' << section << ']' << '\n' << key << '=' << value;
     }
 
     //loading file into memory
     std::string tmp;
+    loaded.clear();
+
     while(getline(file, tmp)) {
         loaded.push_back(tmp);
     }
 
-    for(unsigned int i = 0; i < loaded.size(); i++) {//search section
-        if(loaded[i].size() > 3 && loaded[i][0] == '[' && loaded[i].substr(1, loaded[i].size() - 2) == section) {//if in good section
-            for(; loaded[i][0] != '[' || i < loaded.size(); i++) { //search key
-                if(loaded[i].substr(0, loaded[i].find("=")) == key) { //if good key
-                    loaded[i] = loaded[i].substr(0, loaded[i].find("=")) + "=" + value;
-                    break;
-                }
+    bool sectionFounded = false;
+
+    for(unsigned int i = 0; i < loaded.size(); i++) { //search section
+        if(sectionFounded || (loaded[i].size() > 3 && loaded[i][0] == '[' && loaded[i].substr(1, loaded[i].size() - 2) == section)) {//if in good section
+            sectionFounded = true;
+            if(loaded[i].substr(0, loaded[i].find("=")) == key) { //if good key
+                loaded[i] = loaded[i].substr(0, loaded[i].find("=")) + "=" + value;
+                break;
             }
-            //what if key doesn't exist?
-            break;
         }
     }
-    //what if section doesn't exist?
+
+    if(!sectionFounded) { //section doesn't exist
+        loaded.push_back("[" + section + "]");
+        loaded.push_back(key + "=" + value);
+    }
 
     file.close();
     remove(name.c_str());
+
     file.open(name, std::ios::out);
 
     for(unsigned int i = 0; i < loaded.size(); i++) {
@@ -104,5 +110,5 @@ bool Ini::writeString(const std::string section, const std::string key, const st
     }
 
     file.close();
-    return 0;
+    return;
 }
