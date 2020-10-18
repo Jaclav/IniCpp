@@ -64,10 +64,6 @@ int Ini::readInt(const std::string section, const std::string key, const int def
     }
 }
 
-bool Ini::readBool(const std::string section, const std::string key, const bool def) {
-    return readString(section, key, std::to_string(def)) == "true" ? true : false;
-}
-
 void Ini::writeString(const std::string section, const std::string key, const std::string value) {
     file.open(name, std::ios::in | std::ios::out);
     if(!file.good()) {
@@ -116,4 +112,9 @@ void Ini::writeString(const std::string section, const std::string key, const st
 
     file.close();
     return;
+}
+
+void writeInt(const std::string section, const std::string key, const int value){
+	writeString(section, key, std::to_string(value));
+	return;
 }
