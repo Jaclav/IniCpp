@@ -69,27 +69,29 @@ bool Ini::readBool(const std::string section, const std::string key, const bool 
 }
 
 void Ini::writeString(const std::string section, const std::string key, const std::string value) {
-    //TODO: doesn't work when section exists and key doesn't
     file.open(name, std::ios::in | std::ios::out);
     if(!file.good()) {
         file << '[' << section << ']' << '\n' << key << '=' << value;
     }
 
     //loading file into memory
-    std::string tmp;
     loaded.clear();
-
+    std::string tmp;
     while(getline(file, tmp)) {
         loaded.push_back(tmp);
     }
 
     bool sectionFounded = false;
+	bool keyFounded = false;
 
-    for(unsigned int i = 0; i < loaded.size(); i++) { //search section
+	unsigned int i = 0;
+
+    for(; i < loaded.size(); i++) { //search section
         if(sectionFounded || (loaded[i].size() > 3 && loaded[i][0] == '[' && loaded[i].substr(1, loaded[i].size() - 2) == section)) {//if in good section
-            sectionFounded = true;
+			sectionFounded = true;
             if(loaded[i].substr(0, loaded[i].find("=")) == key) { //if good key
                 loaded[i] = loaded[i].substr(0, loaded[i].find("=")) + "=" + value;
+				keyFounded = true;
                 break;
             }
         }
@@ -99,6 +101,9 @@ void Ini::writeString(const std::string section, const std::string key, const st
         loaded.push_back("[" + section + "]");
         loaded.push_back(key + "=" + value);
     }
+    else if(!keyFounded){ // section exists but key doesn't
+		loaded.insert(loaded.begin() + i, key + "=" + value);
+	}
 
     file.close();
     remove(name.c_str());
