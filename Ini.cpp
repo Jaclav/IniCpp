@@ -114,7 +114,7 @@ void Ini::writeString(const std::string section, const std::string key, const st
     return;
 }
 
-void writeInt(const std::string section, const std::string key, const int value){
+void Ini::writeInt(const std::string section, const std::string key, const int value){
 	writeString(section, key, std::to_string(value));
 	return;
 }
