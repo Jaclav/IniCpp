@@ -12,7 +12,7 @@ int main() {
 	iniFile.writeString("user", "name", "John");
 	iniFile.writeString("user", "surname", "Smith");
 	iniFile.writeString("user", "email", "john.smith@example.com");
-	iniFile.writeString("user", "age", "32");
+	iniFile.writeInt("user", "age", 32);
 
     std::cout << "name = " << iniFile.readString("user", "name", "UNKNOWN") << std::endl;
     std::cout << "surname = " << iniFile.readString("user", "surname", "UNKNOWN") << std::endl;
