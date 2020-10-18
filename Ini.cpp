@@ -83,6 +83,9 @@ void Ini::writeString(const std::string section, const std::string key, const st
 	unsigned int i = 0;
 
     for(; i < loaded.size(); i++) { //search section
+		if(sectionFounded && loaded[i].size() > 3 && loaded[i][0] == '['){
+			break;
+		}
         if(sectionFounded || (loaded[i].size() > 3 && loaded[i][0] == '[' && loaded[i].substr(1, loaded[i].size() - 2) == section)) {//if in good section
 			sectionFounded = true;
             if(loaded[i].substr(0, loaded[i].find("=")) == key) { //if good key
