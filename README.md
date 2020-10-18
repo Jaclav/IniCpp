@@ -1,6 +1,5 @@
 # IniCpp
 .INI parser written in C++
-So far, only reads
 
 # Example in C++
 ```cpp
