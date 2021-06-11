@@ -1,5 +1,5 @@
 #!/bin/bash
-make
+g++ test.cpp ../Ini.cpp -I ../
 ./a.out > /tmp/a.out
 
 str="name = John
@@ -14,3 +14,4 @@ else
 fi
 rm /tmp/a.out
 rm a.out
+rm test.ini
