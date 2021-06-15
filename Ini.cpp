@@ -16,6 +16,17 @@ void Ini::setPath(const std::string path) {
     Ini::path = path;
 }
 
+unsigned int Ini::getNumberOfSections(void) {
+    file.open(path, std::ios::in);
+    unsigned int quantity = 0;
+    std::string line;
+    while(getline(file, line)) {
+        if(line[0] == '[')
+            quantity++;
+    }
+    return quantity;
+}
+
 std::string Ini::readString(const std::string section, const std::string key, const std::string def) {
     file.open(path, std::ios::in);
     if(!file.good()) {

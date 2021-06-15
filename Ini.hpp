@@ -14,6 +14,7 @@ public:
     ~Ini();
 
     void setPath(const std::string path);
+    unsigned int getNumberOfSections(void);
 
     std::string readString(const std::string section, const std::string key, const std::string def);
     int readInt(const std::string section, const std::string key, const int def);

@@ -5,7 +5,12 @@ g++ test.cpp ../Ini.cpp -I ../
 str="name = John
 surname = Smith
 email = john.smith@example.com
-age = 32"
+age = 32
+name = Mark
+surname = Adams
+email = mark.adams@example.com
+age = 44
+Sections number = 2"
 
 if [[ "$(cat /tmp/a.out)" == $str ]]; then
 	echo "Everything is OK!"
