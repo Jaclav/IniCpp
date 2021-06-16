@@ -24,6 +24,7 @@ unsigned int Ini::getNumberOfSections(void) {
         if(line[0] == '[')
             quantity++;
     }
+    file.close();
     return quantity;
 }
 
